@@ -8,9 +8,9 @@ Fonctionne sur Home Assistant OS ou Supervised, en 64 bits (amd64, aarch64 : PC,
 
 ## Installation
 
-1. Mets ce dossier sur GitHub (dépôt public).
-2. Dans Home Assistant : **Paramètres → Modules complémentaires → Boutique → ⋮ → Dépôts**,
-   colle l'URL du dépôt GitHub, puis **Ajouter**.
+1. Dans Home Assistant : **Paramètres → Modules complémentaires → Boutique → ⋮ → Dépôts**,
+   colle `https://github.com/prophetmaster/ha-addon-spotdl`, puis **Ajouter**.
+2. Recharge la page de la boutique : spotDL apparaît en bas.
 3. Installe **spotDL**. La première installation construit l'image sur ta machine : compte
    quelques minutes sur un Raspberry Pi.
 4. Démarre-le et coche **Afficher dans la barre latérale**.
