@@ -1,5 +1,5 @@
 name: spotDL
-version: "0.1.0"
+version: "0.1.1"
 slug: spotdl
 description: Télécharge des titres et playlists Spotify en MP3 depuis une interface web
 url: https://github.com/spotDL/spotify-downloader

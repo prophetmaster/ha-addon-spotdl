@@ -1,17 +1,17 @@
-ARG BUILD_FROM=python:3.13-slim-bookworm
-FROM ${BUILD_FROM}
+# Debian rather than Home Assistant's Alpine base: the Deno builds are for glibc.
+# The Supervisor's BUILD_FROM is ignored on purpose.
+FROM python:3.13-slim-bookworm
 
-ARG BUILD_ARCH=amd64
 ARG SPOTDL_VERSION=4.6.0
 ARG DENO_VERSION=v2.9.8
 
 # ffmpeg converts to MP3; yt-dlp needs Deno to read YouTube's player.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ffmpeg curl unzip ca-certificates \
-    && case "${BUILD_ARCH}" in \
+    && case "$(dpkg --print-architecture)" in \
         amd64) deno_target=x86_64-unknown-linux-gnu ;; \
-        aarch64) deno_target=aarch64-unknown-linux-gnu ;; \
-        *) echo "Unsupported architecture: ${BUILD_ARCH}" >&2; exit 1 ;; \
+        arm64) deno_target=aarch64-unknown-linux-gnu ;; \
+        *) echo "Unsupported architecture: $(dpkg --print-architecture)" >&2; exit 1 ;; \
        esac \
     && curl -fsSL "https://dl.deno.land/release/${DENO_VERSION}/deno-${deno_target}.zip" -o /tmp/deno.zip \
     && unzip /tmp/deno.zip -d /usr/local/bin \
