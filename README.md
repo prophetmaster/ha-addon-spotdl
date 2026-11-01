@@ -22,5 +22,7 @@ La documentation de l'addon est dans [spotdl/DOCS.md](spotdl/DOCS.md).
 `spotdl/run.py` lance `spotdl web` avec les options de l'addon. L'interface de spotDL écrit des
 adresses absolues (`/assets/…`, `/client/…`) ; derrière l'ingress de Home Assistant, `run.py`
 les préfixe avec l'en-tête `X-Ingress-Path`, dans les pages comme dans le flux d'événements.
-spotDL est figé à la version 4.6.0 dans le `Dockerfile` : ces réécritures dépendent de ses gabarits,
+`run.py` remplace aussi la route de téléchargement de l'interface, qui dans spotDL 4.6.0 n'accepte
+que des liens de titres : albums, playlists et artistes passent, et le téléchargement continue
+quand on quitte la page. spotDL est figé à la version 4.6.0 dans le `Dockerfile` : ces réécritures dépendent de ses gabarits,
 donc revérifie-les en changeant de version.
