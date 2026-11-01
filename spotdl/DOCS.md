@@ -10,7 +10,11 @@ Home Assistant les trouvent.
 1. Démarre l'addon.
 2. Ouvre **spotDL** dans la barre latérale de Home Assistant.
 3. Colle un lien `https://open.spotify.com/...` dans la recherche, ou tape un titre, puis Entrée.
-4. Clique sur le bouton de téléchargement. La progression s'affiche sous l'icône de nuage.
+4. Clique sur le bouton de téléchargement. La progression s'affiche sous l'icône de nuage,
+   et le journal de l'addon écrit « Finished … » à la fin de chaque lien.
+
+Le format et la qualité se règlent dans les options de l'addon : la roue dentée de
+l'interface web ne les change pas.
 
 Une playlist doit être publique. Les titres likés sont privés : copie-les d'abord dans une
 playlist publique.

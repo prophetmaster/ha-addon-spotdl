@@ -75,6 +75,22 @@ class IngressPathMiddleware:
 
 # Keeps running downloads referenced until they finish.
 DOWNLOADS = set()
+SHARED_DOWNLOADER = None
+create_client_downloader = Client.create_downloader
+
+
+def create_shared_downloader(client):
+    """One downloader for every page, in place of one per spotDL client.
+
+    spotDL drops a client 15 s after its page closes, and the next page can still send
+    the dropped id. With a shared downloader no download is refused for that, and the
+    downloads list survives page changes. The settings are the add-on's options; the
+    web interface's own settings dialog no longer changes them.
+    """
+    global SHARED_DOWNLOADER
+    if SHARED_DOWNLOADER is None:
+        SHARED_DOWNLOADER = create_client_downloader(client)
+    return SHARED_DOWNLOADER
 
 
 async def download(client, url):
@@ -89,9 +105,13 @@ async def download(client, url):
         *(client.downloader.pool_download(song) for song in songs),
         return_exceptions=True,
     )
+    for result in results:
+        if isinstance(result, Exception):
+            app_state.logger.error(f"Error downloading! {result}")
     failed = sum(1 for result in results if isinstance(result, Exception) or result[1] is None)
-    if failed:
-        app_state.logger.error(f"{failed} of {len(songs)} song(s) failed from {url}")
+    app_state.logger.info(
+        f"Finished {url}: {len(songs) - failed} downloaded, {failed} failed"
+    )
 
 
 async def gen_download(signals):
@@ -100,12 +120,8 @@ async def gen_download(signals):
     Any Spotify link works here: track, album, playlist or artist. The download runs as
     its own task, so leaving the page that started it does not cancel it.
     """
-    client = Client.get_instance(signals.client_id)
-    if client is None:
-        yield SSE.patch_elements(
-            routes.templates.get_template("status-disconnected.html.j2").render()
-        )
-        return
+    # A dropped client id still downloads: every client shares the same downloader.
+    client = app_state.clients.get(signals.client_id) or Client(signals.client_id)
 
     app_state.logger.info(f"[{signals.client_id}] Download requested: {signals.song_url}")
     yield SSE.patch_elements(f"""
@@ -169,6 +185,7 @@ def main():
         app=IngressPathMiddleware(app), **kwargs
     )
     routes.gen_download = gen_download
+    Client.create_downloader = create_shared_downloader
     # There is no browser to open in the container.
     webbrowser.open = lambda *args, **kwargs: False
 
