@@ -1,0 +1,21 @@
+configuration:
+  output_dir:
+    name: Dossier de destination
+    description: Où enregistrer la musique. Doit être dans /media.
+  format:
+    name: Format
+    description: Format des fichiers audio.
+  bitrate:
+    name: Débit
+    description: Qualité de l'encodage. 320k est la meilleure qualité en MP3.
+  client_id:
+    name: Spotify Client ID
+    description: Facultatif. Ton propre identifiant Spotify, pour ne pas subir la limite de l'identifiant partagé.
+  client_secret:
+    name: Spotify Client secret
+    description: Facultatif. À remplir avec le Client ID.
+  log_level:
+    name: Niveau de journal
+    description: Quantité de détails dans le journal de l'addon.
+network:
+  8800/tcp: Interface web en accès direct, sans mot de passe (désactivée par défaut)

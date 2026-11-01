@@ -1,0 +1,31 @@
+name: spotDL
+version: "0.1.0"
+slug: spotdl
+description: Télécharge des titres et playlists Spotify en MP3 depuis une interface web
+url: https://github.com/spotDL/spotify-downloader
+arch:
+  - amd64
+  - aarch64
+ingress: true
+ingress_port: 8800
+panel_icon: mdi:music-circle
+panel_title: spotDL
+ports:
+  8800/tcp: null
+ports_description:
+  8800/tcp: Interface web en accès direct, sans mot de passe (désactivée par défaut)
+map:
+  - type: media
+    read_only: false
+options:
+  output_dir: /media/spotdl
+  format: mp3
+  bitrate: 320k
+  log_level: INFO
+schema:
+  output_dir: str
+  format: list(mp3|flac|ogg|opus|m4a|wav)
+  bitrate: list(auto|128k|192k|256k|320k)
+  client_id: str?
+  client_secret: password?
+  log_level: list(DEBUG|INFO|WARNING|ERROR)

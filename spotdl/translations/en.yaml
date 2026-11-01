@@ -1,0 +1,21 @@
+configuration:
+  output_dir:
+    name: Output folder
+    description: Where the music is saved. Must be inside /media.
+  format:
+    name: Format
+    description: Audio file format.
+  bitrate:
+    name: Bitrate
+    description: Encoding quality. 320k is the best MP3 quality.
+  client_id:
+    name: Spotify Client ID
+    description: Optional. Your own Spotify app ID, so you are not limited by the shared one.
+  client_secret:
+    name: Spotify Client secret
+    description: Optional. Goes with the Client ID.
+  log_level:
+    name: Log level
+    description: How much detail the add-on log shows.
+network:
+  8800/tcp: Direct web interface, no password (off by default)
